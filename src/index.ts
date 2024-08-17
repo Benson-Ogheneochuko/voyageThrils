@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from 'express';
-// import { currencyRouter } from "./services/convertService";
 import { currencyRouter } from "./routes/currencyRoutes"
 import { AppError } from './handleErrors/AppErrors';
 import { appErrorHandler } from './handleErrors/AppErrorHandlers';
@@ -18,7 +17,8 @@ app.get('/', (req, res) => {
 const currencyUrl = '/v1/api/converter';
 app.use(currencyUrl, currencyRouter);
 
-app.all('*', (req: Request, res: Response, next: NextFunction)=>{
-  const err = new AppError( 500, `can't find route ${req.originalUrl}`)
-})
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
+  const err = new AppError(500, `can't find route ${req.originalUrl}`);
+  next(err);
+});
 app.use(appErrorHandler)
