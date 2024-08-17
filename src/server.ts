@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+export default app
 // const port = config.port;
 
 // app.listen(port, () => {
