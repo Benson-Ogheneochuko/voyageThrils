@@ -1,4 +1,3 @@
-// import { config } from '../config/env';
 import '../config/env';
 import { app } from './index';
 
@@ -10,9 +9,3 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export default app
-// const port = config.port;
-
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
-
