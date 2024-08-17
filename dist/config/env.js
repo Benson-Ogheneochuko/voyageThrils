@@ -1,4 +1,5 @@
 import { config as dotenvConfig } from 'dotenv';
+dotenvConfig();
 // import path from 'path';
 // import { fileURLToPath } from 'url';
 // const __filename = fileURLToPath(import.meta.url);
@@ -14,4 +15,3 @@ import { config as dotenvConfig } from 'dotenv';
 //   port: process.env.PORT || 3000,
 //   // Add other environment variables as needed
 // };
-dotenvConfig();
