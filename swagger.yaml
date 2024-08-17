@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: My Currency Converter
+  description: An app for checking the exchange rate between two currencies.
+  version: 1.0.0
+
+servers:
+  - url: "{baseUrl}/v1/api/converter"
+    description: Main (production | development) server
+    variables:
+      baseUrl:
+        default: "https://api.example.com" # Replace with your actual production URL
+        description: The base URL for API requests.
+        enum:
+          - "https://api.example.com"  # Production
+          - "https://dev.example.com"  # Development
+  - url: "http://{baseUrl}/v1/api/converter"
+    description: Local server
+    variables:
+      baseUrl:
+        default: "localhost:8000"
+        description: The base URL for local API requests.
+        enum:
+          - "localhost:8000"
+          - "127.0.0.1:8000"
+
+paths:
+  /:
+    get:
+      summary: Returns a JSON object with conversion rate between provided currency codes
+      description: Expects standard ISO 4217 currency codes, defaults to USD & NGN.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrencyPair'
+      responses:
+        200:
+          description: A JSON object containing conversion details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResponse'
+
+components:
+  schemas:
+    ConversionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Request successful"
+        data:
+          type: object
+          properties:
+            time_last_update_utc:
+              type: string
+              example: "Fri, 09 Aug 2024 00:00:02 +0000"
+            time_next_update_utc:
+              type: string
+              example: "Sat, 10 Aug 2024 00:00:02 +0000"
+            base_code:
+              type: string
+              example: "GBP"
+            target_code:
+              type: string
+              example: "NGN"
+            conversion_rate:
+              type: number
+              format: float
+              example: 2009.2151
+
+    CurrencyPair:
+      type: object
+      properties:
+        base:
+          type: string
+          example: USD
+        target:
+          type: string
+          example: NGN

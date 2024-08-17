@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: Currency Converter
+  description: The exchange rate is usually updated daily at 12am UTC. For example, if you have 1 unit of your base currency (like NGN, USD, etc.), it will be equivalent to the value returned in the target currency you choose.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:Port/v1/api/converter
+    description: local testing server
+  - url: "{baseUrl}/v1/api/converter"
+    variables:
+      baseUrl:
+        default: https://api.example.com
+        description: Base URL of the API server
+
+paths:
+  /supported-currencies:
+    get:
+      summary: Returns a list of supported currencies
+      responses:
+        '200':
+          description: A JSON object containing an array of supported currencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportedCurrenciesResponse'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+  /convert-pair:
+    post:
+      summary: Returns an object with last updated exchange rate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertPairRequest'
+      responses:
+        '200':
+          description: A JSON object with exchange rate information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '4XX':
+          $ref: '#/components/responses/ClientError'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    SupportedCurrenciesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: 'request successful'
+        data:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+            minItems: 2
+            maxItems: 2
+          example:
+            - ["AED", "UAE Dirham"]
+            - ["AFN", "Afghan Afghani"]
+            - ["ALL", "Albanian Lek"]
+
+    ConvertPairRequest:
+      type: object
+      properties:
+        base:
+          type: string
+          description: Base currency code
+        target:
+          type: string
+          description: Target currency code
+      required:
+        - base
+        - target
+
+    ExchangeRateResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: 'Request successful'
+        data:
+          type: object
+          properties:
+            time_last_update_utc:
+              type: string
+              example: 'Thu, 15 Aug 2024 00:00:02 +0000'
+            time_next_update_utc:
+              type: string
+              example: 'Fri, 16 Aug 2024 00:00:02 +0000'
+            base_code:
+              type: string
+              example: 'GBP'
+            target_code:
+              type: string
+              example: 'NGN'
+            conversion_rate:
+              type: number
+              example: 2038.9411
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+        error_code:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Invalid currency code"
+            error_code: "INVALID_CURRENCY"
+    ClientError:
+      description: Client error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Client error occurred"
+            error_code: "CLIENT_ERROR"
+    ServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Internal server error"
+            error_code: "SERVER_ERROR"
