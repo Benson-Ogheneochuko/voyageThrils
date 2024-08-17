@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { supportedCodesService } from "../services/supportedCodesService";
-import { asyncErrorHandler } from "../handleErrors/AppErrorHandlers";
+import { supportedCodesService } from "../services/supportedCodesService.js";
+import { asyncErrorHandler } from "../handleErrors/AppErrorHandlers.js";
 export const supportedCodesController = asyncErrorHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const codes = yield supportedCodesService();
     if (!codes) {

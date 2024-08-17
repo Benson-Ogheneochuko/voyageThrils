@@ -1,2 +1,2 @@
-export * from './convertController';
-export * from './supportedCodesController';
+export * from './convertController.js';
+export * from './supportedCodesController.js';

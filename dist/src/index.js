@@ -1,7 +1,7 @@
 import express from 'express';
-import { currencyRouter } from "./routes/currencyRoutes";
-import { AppError } from './handleErrors/AppErrors';
-import { appErrorHandler } from './handleErrors/AppErrorHandlers';
+import { currencyRouter } from "./routes/currencyRoutes.js";
+import { AppError } from './handleErrors/AppErrors.js';
+import { appErrorHandler } from './handleErrors/AppErrorHandlers.js';
 import cors from 'cors';
 export const app = express();
 app.use(express.json());

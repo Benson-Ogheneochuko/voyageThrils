@@ -1,1 +1,1 @@
-export * from './currencyRoutes';
+export * from './currencyRoutes.js';

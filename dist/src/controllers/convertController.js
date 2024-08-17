@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { convertService } from "../services/convertService";
-import { asyncErrorHandler } from "../handleErrors/AppErrorHandlers";
+import { convertService } from "../services/convertService.js";
+import { asyncErrorHandler } from "../handleErrors/AppErrorHandlers.js";
 export const convertController = asyncErrorHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { base, target } = req.body;
     let result = yield convertService({ base, target });
