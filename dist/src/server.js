@@ -1,4 +1,3 @@
-// import { config } from '../config/env.js';
 import '../config/env.js';
 import { app } from './index.js';
 if (process.env.NODE_ENV !== 'production') {
@@ -8,7 +7,3 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 export default app;
-// const port = config.port;
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
