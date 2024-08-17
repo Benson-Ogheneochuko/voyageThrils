@@ -18,12 +18,17 @@ export const supportedCodesService = () => __awaiter(void 0, void 0, void 0, fun
         };
         const response = yield fetch(supportedCodesUrl, options);
         if (!response.ok) {
-            throw new Error('Http error! status: ' + response);
+            throw new Error(`Http error! status: ${response.status} - ${response.statusText}`);
         }
         const data = yield response.json();
         return data['supported_codes'];
     }
     catch (error) {
-        console.error(error);
+        console.error('Error fetching supported codes:', error.message);
+        console.error('Response details:', {
+            status: error.status,
+            statusText: error.statusText,
+            url: error.url,
+        });
     }
 });
