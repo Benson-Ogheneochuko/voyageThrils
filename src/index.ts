@@ -7,7 +7,10 @@ import cors from 'cors';
 export const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: /http:\/\/localhost:\d+/  // Regex to match any localhost origin
+  origin: [
+      /http:\/\/localhost:\d+/,  // Regex to match any localhost origin
+      'https://main--echangerateproject.netlify.app'
+  ]
 }));
 
 app.get('/', (req, res) => {
