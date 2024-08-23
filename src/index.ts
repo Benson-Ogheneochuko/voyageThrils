@@ -1,27 +1,26 @@
-import express, { NextFunction, Request, Response } from 'express';
-import { currencyRouter } from "./routes/currencyRoutes"
-import { AppError } from './handleErrors/AppErrors';
-import { appErrorHandler } from './handleErrors/AppErrorHandlers';
-import cors from 'cors';
+import express, { NextFunction, Request, Response } from 'express'
+import cors from 'cors'
+import {env} from 'node:process'
+import {authRouter} from './routes/authRoutes'
 
-export const app = express();
-app.use(express.json());
+export const app = express()
+app.use(express.json())
+
 app.use(cors({
-  origin: [
-      /http:\/\/localhost:\d+/,  // Regex to match any localhost origin
-      'https://main--echangerateproject.netlify.app'
-  ]
-}));
+  origin: env.NODE_ENV === 'production' ? env.PRODUCTION_ORIGINS : env.LOCAL_ORIGINS
+}))
 
-app.get('/', (req, res) => {
-  res.status(200).send('Currency converter reporting for duty');
+app.get('/', (req: Request, res: Response, next: NextFunction)=>{
+  res.send('Oauth2 project')
 })
 
-const currencyUrl = '/v1/api/converter';
-app.use(currencyUrl, currencyRouter);
+const authRoute = '/v1/api/auth'
+app.use(authRoute, authRouter)
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
-  const err = new AppError(500, `can't find route ${req.originalUrl}`);
-  next(err);
-});
-app.use(appErrorHandler)
+  res.status(404).json({
+    message: 'route not found'
+  })
+})
+
+export default app
