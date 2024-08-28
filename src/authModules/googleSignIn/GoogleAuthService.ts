@@ -1,6 +1,7 @@
 import {env} from 'node:process'
-import jwt from 'jsonwebtoken'
-const {GOOGLE_AUTH_URI, GOOGLE_OAUTH_REDIRECT_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_TOKEN_URI, GOOGLE_PROFILE_SCOPE} = env
+import crypto from 'crypto'
+
+const {GOOGLE_AUTH_URI, GOOGLE_OAUTH_REDIRECT_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_TOKEN_URI} = env
 
 // https://www.googleapis.com/auth/userinfo.email
 export const getGoogleOauthUrl = () =>{
@@ -10,7 +11,8 @@ export const getGoogleOauthUrl = () =>{
     access_type: 'offline',
     response_type: 'code',
     prompt: 'consent',
-    scope: ['email', 'profile'].join(' ')
+    scope: ['email', 'profile'].join(' '),
+    state: crypto.randomBytes(16).toString('hex')
   }
 
   const queryString = new URLSearchParams(authOptions)

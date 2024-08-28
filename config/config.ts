@@ -19,22 +19,3 @@ export function getEnvVar(key: keyof typeof config): string | number {
   }
   return value;
 }
-
-// import { configDotenv } from 'dotenv';
-// import path from 'path';
-
-// const result = configDotenv({
-//   path: path.resolve(__dirname, '../.env'),
-// });
-
-// if (result.error) {
-//   throw result.error;
-// }
-
-// console.log('Environment variables loaded');
-
-// // You can add any additional configuration logic here if needed
-// export const config = {
-//   port: process.env.PORT || 3000,
-//   // Add other environment variables as needed
-// };

@@ -17,19 +17,22 @@ export const GoogleAuthController = async (req: Request, res: Response) =>{
 }
 
 export const GoogleUserController = async (req: Request, res: Response, next: NextFunction) => {
-  const { code } = req.query
+  const { code, state } = req.query
   try {
+    if(!state){
+      return res.status(400).send('Invalid state parameter');
+    }
     const { id_token, access_token } = await getGoogleTokens(code as string)
     if (!id_token || !access_token) {
       throw new Error('Google access errors')
     }
 
-    const userData = verifyJwtToken({ token: id_token, client: Clients.google })
-    if(!userData) {
+    const data = verifyJwtToken({ token: id_token, client: Clients.google })
+    if(!data) {
       throw new Error('Error fetching user data')
     }
 
-    req.body.userData = userData
+    req.body.data = data
     next()
   } catch (error) {
     console.error(error)

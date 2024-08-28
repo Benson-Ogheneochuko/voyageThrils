@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch src/server.ts",
-    "build": "tsc && cp .env dist/.env",
+    "dev": "tsx watch -r tsconfig-paths/register src/server.ts",
+    "build": "tsc && tsc-alias && cp .env dist/.env",
     "postbuild": "node fix-imports.js",
-    "start": "node dist/src/server.js"
+    "start": "node -r tsconfig-paths/register dist/src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,8 @@
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
     "nodemon": "^3.1.4",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.16.2",
     "typescript": "^5.5.4"
   }

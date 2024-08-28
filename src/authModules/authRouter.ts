@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { GoogleAuthController, GoogleUserController } from "../authModules/googleSignIn/GoogleAuthController";
-import { upsertUser } from "../dbModules/firebase";
+import { GoogleAuthController, GoogleUserController, RerouteRequestController } from ".";
+
+export const authRoute = '/auth'
 export const authRouter = Router()
 
 authRouter
@@ -9,8 +10,7 @@ authRouter
 
 authRouter
   .route('/googleAuth/verifyToken')
-  .get(GoogleUserController, upsertUser)
-  // .post(GoogleUserController, upsertUser)
+  .get(GoogleUserController, RerouteRequestController)
 
 authRouter
   .route('/amazon')
